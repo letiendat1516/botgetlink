@@ -181,6 +181,60 @@
     @media(min-width:431px){
       body{background-color:#e8d0d5}
     }
+
+    /* ── LOADING OVERLAY ── */
+    .loading-overlay{
+      display:none;
+      position:fixed;inset:0;z-index:999;
+      background:rgba(252,232,237,.75);
+      backdrop-filter:blur(3px);
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+    }
+    .loading-overlay.show{display:flex}
+
+    .loading-box{
+      background:rgba(255,255,255,.92);
+      border:2.5px solid #e91e8c;
+      border-radius:24px;
+      padding:28px 36px;
+      text-align:center;
+      box-shadow:0 8px 32px rgba(233,30,140,.18);
+      animation:popIn .3s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+    @keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+
+    .loading-hearts{font-size:2rem;letter-spacing:4px;animation:heartBeat 1s ease-in-out infinite}
+    @keyframes heartBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+
+    .loading-bar-wrap{
+      width:180px;height:8px;
+      background:#fce8ed;
+      border-radius:99px;
+      overflow:hidden;
+      margin:14px auto 0;
+      border:1.5px solid #f5b4be;
+    }
+    .loading-bar{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,#ff80bc,#e91e8c);
+      border-radius:99px;
+      animation:loadBar 2s ease-in-out infinite;
+    }
+    @keyframes loadBar{0%{width:0%;margin-left:0}60%{width:80%;margin-left:0}100%{width:0%;margin-left:100%}}
+
+    .loading-text{
+      font-family:'Baloo 2',sans-serif;
+      font-size:.88rem;
+      font-weight:700;
+      color:#e91e8c;
+      margin-top:10px;
+      animation:textFade 1.4s ease-in-out infinite alternate;
+    }
+    @keyframes textFade{from{opacity:.5}to{opacity:1}}
   </style>
 </head>
 <body>
@@ -226,6 +280,15 @@
   <div class="footer-banner">SHOP THÂN THIỆN VÀ IU THIÊN NHIÊN</div>
 
 </div>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-box">
+    <div class="loading-hearts">🍿 🎬 🍿</div>
+    <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+    <div class="loading-text" id="loading-text">Đang lấy link...</div>
+  </div>
+</div>
 <script>
 const API_URL = 'https://nftoken.site/v1/api.php';
 const API_KEY = 'NFK_51d19f9116b5b7b08b17d5dd';
@@ -245,9 +308,28 @@ async function getLink() {
   const cookie = document.getElementById('gl-cookie').value.trim();
   const btn    = document.getElementById('gl-btn');
   const resEl  = document.getElementById('gl-result');
+  const overlay = document.getElementById('loading-overlay');
+  const loadTxt = document.getElementById('loading-text');
+
   if (!cookie) { showError(resEl, 'Vui lòng nhập cookie trước!'); return; }
+
   btn.disabled = true;
   resEl.innerHTML = '';
+  overlay.classList.add('show');
+
+  const msgs = [
+    'Đang kết nối Netflix... 🎬',
+    'Đang kiểm tra cookie... 🍿',
+    'Sắp xong rồi, chờ Hương xíu... 💕',
+    'Đang lấy link đăng nhập... ✨',
+  ];
+  let mi = 0;
+  loadTxt.textContent = msgs[0];
+  const msgTimer = setInterval(() => {
+    mi = (mi + 1) % msgs.length;
+    loadTxt.textContent = msgs[mi];
+  }, 1200);
+
   try {
     const data = await callApi({ cookie });
     if (data && (data.status === 'SUCCESS' || data.status === 'success')) {
@@ -258,6 +340,8 @@ async function getLink() {
   } catch (e) {
     showError(resEl, e.message);
   } finally {
+    clearInterval(msgTimer);
+    overlay.classList.remove('show');
     btn.disabled = false;
   }
 }
