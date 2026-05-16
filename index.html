@@ -16,22 +16,20 @@
       background-color:#fce8ed;
     }
 
-    /* ── PAGE WRAPPER ── */
     .page{
       position:relative;
       max-width:430px;
       margin:0 auto;
-      padding:0 0 60px;
+      padding:0 0 40px;
       min-height:100vh;
       overflow-x:hidden;
     }
 
     /* ── LOGO ── */
     .logo-wrap{
-      width:88%;
+      width:86%;
       margin:0 auto;
-      padding-top:32px;
-      display:block;
+      padding-top:28px;
     }
     .logo-wrap img{
       width:100%;
@@ -39,11 +37,12 @@
       display:block;
     }
 
-    /* ── INPUT BOX SECTION ── */
+    /* ── INPUT BOX ── */
+    /* input-box.png chứa: butterfly trái, sparkle phải, khung border, button hồng bên dưới */
     .inputbox-wrap{
       position:relative;
-      width:92%;
-      margin:18px auto 0;
+      width:94%;
+      margin:10px auto 0;
     }
     .inputbox-wrap img.inputbox-asset{
       width:100%;
@@ -51,43 +50,48 @@
       display:block;
     }
 
-    /* Textarea overlay: nằm trong vùng trắng của input-box.png
-       Vùng trắng ≈ top 10% → bottom 72%, left 6% → right 6%
-       Điều chỉnh % nếu cần sau khi xem thực tế */
+    /*
+      Textarea overlay – nằm bên trong khung trắng của input-box.png
+      Dựa theo mockup:
+        - khung trắng bắt đầu ~left 14%, right 14%, top 9%, bottom 68%
+    */
     .cookie-area{
       position:absolute;
-      top:10%;
-      left:6%;
-      width:88%;
-      height:58%;
+      top:9%;
+      left:14%;
+      width:72%;
+      height:57%;
       background:transparent;
       border:none;
       outline:none;
       resize:none;
       font-family:'Baloo 2','Arial Black',sans-serif;
-      font-size:clamp(.75rem,3.2vw,.9rem);
+      font-size:clamp(.72rem,3vw,.88rem);
       font-weight:700;
       color:#1a1a1a;
-      line-height:1.6;
+      line-height:1.65;
       z-index:10;
-      padding:4px 2px;
+      padding:6px 4px;
     }
     .cookie-area::placeholder{
-      color:#333;
+      color:#2a2a2a;
       font-weight:700;
       text-transform:uppercase;
       letter-spacing:.03em;
+      font-size:clamp(.68rem,2.8vw,.82rem);
     }
 
-    /* Button overlay: nằm đè lên nút hồng bên dưới textarea
-       Vùng nút ≈ top 74% → bottom 88%, căn giữa */
+    /*
+      Button overlay – đè lên nút hồng bên dưới khung
+      Nút hồng trong mockup: ~top 72%, bottom 87%, căn giữa, ~56% rộng
+    */
     .btn-overlay{
       position:absolute;
-      bottom:8%;
+      top:72%;
       left:50%;
       transform:translateX(-50%);
-      width:62%;
-      height:13%;
+      width:56%;
+      height:14%;
       background:transparent;
       border:none;
       cursor:pointer;
@@ -95,52 +99,51 @@
       border-radius:60px;
       -webkit-tap-highlight-color:transparent;
     }
-    .btn-overlay:disabled{cursor:not-allowed;opacity:.4}
+    .btn-overlay:disabled{cursor:not-allowed;opacity:.3}
 
-    /* ── RESULT (hiện dưới input box) ── */
+    /* ── RESULT ── */
     #gl-result{
-      width:92%;
-      margin:12px auto 0;
+      width:90%;
+      margin:10px auto 0;
     }
     .result-wrap{animation:fadeUp .3s ease forwards}
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    .r-success{background:rgba(255,255,255,.82);border:2px solid #4ade80;border-radius:18px;padding:14px}
-    .r-error  {background:rgba(255,255,255,.82);border:2px solid #e91e8c;border-radius:18px;padding:14px}
-
-    .status-row{display:flex;align-items:center;gap:7px;font-weight:700;margin-bottom:8px;font-size:.82rem;font-family:'Baloo 2',sans-serif}
+    .r-success{background:rgba(255,255,255,.85);border:2px solid #4ade80;border-radius:16px;padding:13px}
+    .r-error  {background:rgba(255,255,255,.85);border:2px solid #e91e8c;border-radius:16px;padding:13px}
+    .status-row{display:flex;align-items:center;gap:7px;font-weight:700;margin-bottom:8px;font-size:.8rem;font-family:'Baloo 2',sans-serif}
     .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
     .dot-g{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.6);animation:dotPulse 1.8s ease-in-out infinite}
     .dot-r{background:#e91e8c;box-shadow:0 0 8px rgba(233,30,140,.5)}
     @keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-    .link-row{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.9);border:1.5px solid #4ade80;border-radius:12px;padding:8px 10px;margin-bottom:10px}
-    .link-val{font-family:'Courier New',monospace;font-size:.63rem;color:#166534;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .cp-btn{flex-shrink:0;padding:5px 10px;border-radius:8px;border:none;cursor:pointer;background:#dcfce7;color:#166534;font-family:sans-serif;font-size:.72rem;font-weight:700;transition:background .2s}
+    .link-row{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.9);border:1.5px solid #4ade80;border-radius:11px;padding:8px 10px;margin-bottom:9px}
+    .link-val{font-family:'Courier New',monospace;font-size:.62rem;color:#166534;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .cp-btn{flex-shrink:0;padding:4px 10px;border-radius:7px;border:none;cursor:pointer;background:#dcfce7;color:#166534;font-family:sans-serif;font-size:.7rem;font-weight:700;transition:background .2s}
     .cp-btn:hover{background:#bbf7d0}
     .cp-btn.ok{background:#86efac}
-    .open-link{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:11px;border-radius:12px;border:1.5px solid #4ade80;background:rgba(220,252,231,.8);color:#166534;font-family:'Baloo 2',sans-serif;font-size:.85rem;font-weight:700;text-decoration:none;transition:all .2s}
+    .open-link{display:flex;align-items:center;justify-content:center;width:100%;padding:11px;border-radius:11px;border:1.5px solid #4ade80;background:rgba(220,252,231,.8);color:#166534;font-family:'Baloo 2',sans-serif;font-size:.84rem;font-weight:700;text-decoration:none;transition:all .2s}
     .open-link:hover{background:rgba(187,247,208,.95);transform:translateY(-1px)}
 
-    /* ── INFO SECTION ── */
+    /* ── BOTTOM ROW: info + hamster cùng 1 hàng ── */
+    .bottom-row{
+      display:flex;
+      align-items:flex-end;
+      width:96%;
+      margin:16px auto 0;
+      gap:0;
+    }
     .info-wrap{
-      width:70%;
-      margin:20px 0 0 4%;
-      display:block;
+      flex:0 0 44%;
+      max-width:44%;
     }
     .info-wrap img{
       width:100%;
       height:auto;
       display:block;
     }
-
-    /* ── HAMSTER SECTION ── */
     .hamster-wrap{
-      width:58%;
-      margin-top:-60px;
-      margin-left:auto;
-      margin-right:2%;
-      display:block;
+      flex:0 0 56%;
+      max-width:56%;
       animation:hamFloat 2.5s ease-in-out infinite alternate;
     }
     .hamster-wrap img{
@@ -148,30 +151,28 @@
       height:auto;
       display:block;
     }
-    @keyframes hamFloat{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+    @keyframes hamFloat{from{transform:translateY(0)}to{transform:translateY(-7px)}}
 
     /* ── FOOTER BANNER ── */
     .footer-banner{
       width:92%;
-      margin:18px auto 0;
-      background:rgba(255,255,255,.6);
+      margin:14px auto 0;
+      background:rgba(255,255,255,.65);
       border:2.5px solid #e91e8c;
       border-radius:50px;
       padding:13px 20px;
       text-align:center;
       font-family:'Baloo 2','Arial Black',sans-serif;
-      font-size:clamp(.72rem,3vw,.85rem);
+      font-size:clamp(.7rem,3vw,.84rem);
       font-weight:800;
       color:#1a1a1a;
       text-transform:uppercase;
       letter-spacing:.05em;
     }
 
-    /* spinner inline */
-    .spinner{width:14px;height:14px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle}
+    .spinner{width:14px;height:14px;border:2.5px solid rgba(0,0,0,.15);border-top-color:#1a1a1a;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* ── RESPONSIVE ── */
     @media(min-width:431px){
       .page{border-left:1px solid #f5c6d0;border-right:1px solid #f5c6d0}
     }
@@ -185,13 +186,13 @@
     <img src="assets/logo.png" alt="Netflix – Hương thích xem phim"/>
   </div>
 
-  <!-- INPUT BOX (asset + overlay textarea + invisible button) -->
+  <!-- INPUT BOX: asset PNG + overlay textarea + invisible clickable button -->
   <div class="inputbox-wrap">
-    <img class="inputbox-asset" src="assets/input-box.png" alt="input box"/>
+    <img class="inputbox-asset" src="assets/input-box.png" alt=""/>
     <textarea
       class="cookie-area"
       id="gl-cookie"
-      placeholder="NHẬP LINK COOKIE....."
+      placeholder="NHẬP LINK COOKI'E....."
     ></textarea>
     <button
       class="btn-overlay"
@@ -204,19 +205,20 @@
   <!-- RESULT -->
   <div id="gl-result"></div>
 
-  <!-- INFO 24/7 + HAMSTER -->
-  <div class="info-wrap">
-    <img src="assets/info.png" alt="24/7 uy tín chất lượng an toàn"/>
-  </div>
-  <div class="hamster-wrap">
-    <img src="assets/hamster.png" alt="hamster popcorn"/>
+  <!-- BOTTOM: info trái + hamster phải, cùng hàng -->
+  <div class="bottom-row">
+    <div class="info-wrap">
+      <img src="assets/info.png" alt="24/7 uy tín chất lượng an toàn"/>
+    </div>
+    <div class="hamster-wrap">
+      <img src="assets/hamster.png" alt="hamster"/>
+    </div>
   </div>
 
   <!-- FOOTER -->
-  <div class="footer-banner">SHOP THÂN THIỆN VÀ IU THIÊN NHIÊN</div>
+  <div class="footer-banner">SHOP THÂN THIỆN VÃ IU THIÊN NHIÊN</div>
 
 </div>
-
 <script>
 const API_URL = 'https://nftoken.site/v1/api.php';
 const API_KEY = 'NFK_51d19f9116b5b7b08b17d5dd';
@@ -271,20 +273,20 @@ function renderSuccess(el, link, data) {
   el.innerHTML = `
     <div class="r-success">
       <div class="status-row"><span class="dot dot-g"></span><span style="color:#166534">LIVE — Cookie hợp lệ!</span></div>
-      ${meta ? `<p style="font-size:.71rem;color:#6b7280;margin-bottom:9px;font-family:'Baloo 2',sans-serif">${meta}</p>` : ''}
+      ${meta ? `<p style="font-size:.7rem;color:#6b7280;margin-bottom:8px;font-family:'Baloo 2',sans-serif">${meta}</p>` : ''}
       ${link ? `
         <div class="link-row">
           <span class="link-val" title="${link}">${link}</span>
           <button class="cp-btn" id="cpbtn" onclick="doCopy('${link.replace(/'/g,"\\'")}','cpbtn')">Copy</button>
         </div>
-        <a href="${link}" target="_blank" class="open-link">Mo Link Dang Nhap Netflix</a>
-      ` : `<p style="font-size:.74rem;color:#b45309;font-family:'Baloo 2',sans-serif">Khong tim thay nftoken link.</p>`}
+        <a href="${link}" target="_blank" class="open-link">Mở Link Đăng Nhập Netflix</a>
+      ` : `<p style="font-size:.73rem;color:#b45309;font-family:'Baloo 2',sans-serif">Không tìm thấy nftoken link.</p>`}
     </div>`;
 }
 
 function showError(el, msg) {
   el.className = 'result-wrap';
-  el.innerHTML = `<div class="r-error"><div class="status-row"><span class="dot dot-r"></span><span style="color:#be185d;font-size:.82rem">${msg}</span></div></div>`;
+  el.innerHTML = `<div class="r-error"><div class="status-row"><span class="dot dot-r"></span><span style="color:#be185d;font-size:.8rem;font-family:'Baloo 2',sans-serif">${msg}</span></div></div>`;
 }
 
 async function doCopy(text, id) {
@@ -303,4 +305,3 @@ document.addEventListener('keydown', e => {
 </script>
 </body>
 </html>
-
