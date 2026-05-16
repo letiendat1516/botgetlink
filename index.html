@@ -148,11 +148,10 @@
       max-width:56%;
       animation:hamFloat 2.5s ease-in-out infinite alternate;
     }
-    .hamster-wrap img{
+    .hamster-wrap canvas{
       width:100%;
       height:auto;
       display:block;
-      mix-blend-mode:multiply;
     }
     @keyframes hamFloat{from{transform:translateY(0)}to{transform:translateY(-7px)}}
 
@@ -195,7 +194,7 @@
     <textarea
       class="cookie-area"
       id="gl-cookie"
-      placeholder="NHẬP LINK COOKI'E....."
+      placeholder=""
     ></textarea>
     <button
       class="btn-overlay"
@@ -214,12 +213,12 @@
       <img src="assets/info.png" alt="24/7 uy tín chất lượng an toàn"/>
     </div>
     <div class="hamster-wrap">
-      <img src="assets/hamster.png" alt="hamster"/>
+      <canvas id="hamster-canvas"></canvas>
     </div>
   </div>
 
   <!-- FOOTER -->
-  <div class="footer-banner">SHOP THÂN THIỆN VÃ IU THIÊN NHIÊN</div>
+  <div class="footer-banner">SHOP THÂN THIỆN VÀ IU THIÊN NHIÊN</div>
 
 </div>
 <script>
@@ -305,6 +304,38 @@ async function doCopy(text, id) {
 document.addEventListener('keydown', e => {
   if (e.ctrlKey && e.key === 'Enter') getLink();
 });
+
+// ── Remove white background from hamster.png via Canvas ──
+(function removeHamsterBg() {
+  const canvas = document.getElementById('hamster-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = 'assets/hamster.png';
+  img.onload = function() {
+    canvas.width  = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const d = imageData.data;
+    const threshold = 230; // pixels gần trắng sẽ bị transparent
+    const tolerance = 30;  // fuzz edge mềm
+    for (let i = 0; i < d.length; i += 4) {
+      const r = d[i], g = d[i+1], b = d[i+2];
+      // pixel gần trắng hoặc gần màu nền hồng pastel
+      const isWhiteish = r > threshold && g > threshold && b > threshold;
+      const isPinkBg   = r > 220 && g > 180 && b > 185 && r > g && r > b;
+      if (isWhiteish || isPinkBg) {
+        // mức độ transparent tăng dần theo độ gần trắng (anti-alias mềm)
+        const brightness = (r + g + b) / 3;
+        const alpha = Math.max(0, 255 - brightness) * (255 / (255 - threshold));
+        d[i+3] = Math.min(d[i+3], Math.round(alpha));
+      }
+    }
+    ctx.putImageData(imageData, 0, 0);
+  };
+})();
 </script>
 </body>
 </html>
