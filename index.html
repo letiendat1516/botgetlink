@@ -52,55 +52,64 @@
     }
 
     /*
-      Textarea overlay – nằm bên trong khung trắng của input-box.png
-      Dựa theo mockup:
-        - khung trắng bắt đầu ~left 14%, right 14%, top 9%, bottom 68%
+      textarea-wrap: absolute, nằm đúng trong vùng trắng của input-box.png
+      Vùng trắng asset (đo thực tế):
+        top ~8%  left ~13%  right ~13%  bottom ~32%
+      => width = 74%, height = 60%, top=8%, left=13%
     */
-    .cookie-area{
+    .textarea-wrap{
       position:absolute;
-      top:9%;
-      left:14%;
-      width:72%;
-      height:57%;
+      top:8%;
+      left:13%;
+      width:74%;
+      height:60%;
+      z-index:10;
+      box-sizing:border-box;
+      padding:8px 10px;
+      overflow:hidden;
+    }
+
+    .cookie-area{
+      display:block;
+      width:100%;
+      height:100%;
+      box-sizing:border-box;
       background:transparent;
       border:none;
       outline:none;
       resize:none;
-      overflow:hidden;
       overflow-y:auto;
       overflow-x:hidden;
-      word-break:break-all;
-      word-wrap:break-word;
+      word-break:break-word;
+      overflow-wrap:break-word;
       white-space:pre-wrap;
       font-family:'Baloo 2','Arial Black',sans-serif;
-      font-size:clamp(.72rem,3vw,.88rem);
+      font-size:clamp(.65rem,2.6vw,.82rem);
       font-weight:700;
       color:#1a1a1a;
-      line-height:1.65;
-      z-index:10;
-      padding:6px 8px;
+      line-height:1.6;
+      padding:0;
+      margin:0;
       scrollbar-width:none;
       -ms-overflow-style:none;
     }
     .cookie-area::-webkit-scrollbar{display:none}
     .cookie-area::placeholder{
-      color:#2a2a2a;
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.03em;
-      font-size:clamp(.68rem,2.8vw,.82rem);
+      color:#555;
+      font-weight:600;
+      font-size:clamp(.62rem,2.4vw,.78rem);
     }
 
     /*
-      Button overlay – đè lên nút hồng bên dưới khung
-      Nút hồng trong mockup: ~top 72%, bottom 87%, căn giữa, ~56% rộng
+      Button overlay – đè lên nút hồng trong asset
+      Nút hồng: top ~70%, height ~14%, căn giữa, width ~52%
     */
     .btn-overlay{
       position:absolute;
-      top:72%;
+      top:70%;
       left:50%;
       transform:translateX(-50%);
-      width:56%;
+      width:52%;
       height:14%;
       background:transparent;
       border:none;
@@ -200,11 +209,13 @@
   <!-- INPUT BOX: asset PNG + overlay textarea + invisible clickable button -->
   <div class="inputbox-wrap">
     <img class="inputbox-asset" src="assets/input-box.png" alt=""/>
-    <textarea
-      class="cookie-area"
-      id="gl-cookie"
-      placeholder=""
-    ></textarea>
+    <div class="textarea-wrap">
+      <textarea
+        class="cookie-area"
+        id="gl-cookie"
+        placeholder="NHẬP LINK COOKIE....."
+      ></textarea>
+    </div>
     <button
       class="btn-overlay"
       id="gl-btn"
