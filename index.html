@@ -6,57 +6,23 @@
   <title>Hương thích xem phim</title>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{width:100%;min-height:100vh;overflow-x:hidden}
-    body{width:100%;min-height:100vh;overflow-x:hidden}
+    html,body{width:100%;min-height:100vh;overflow-x:hidden}
 
     body{
-      background-color:#e8d0d5;
-      background-image:url('assets/bg.png');
-      background-size:430px auto;
-      background-position:center top;
-      background-repeat:repeat-y;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-    }
-
-    .page{
-      position:relative;
-      width:430px;
-      flex-shrink:0;
-      padding:0 0 40px;
-      min-height:100vh;
-      overflow-x:hidden;
+      background-color:#fce8ed;
       background-image:url('assets/bg.png');
       background-size:cover;
       background-position:center top;
       background-repeat:repeat-y;
-      transform-origin:top center;
     }
 
-    @media(min-width:540px){
-      body{align-items:flex-start;overflow-x:hidden;padding-bottom:200px}
-      .page{transform:scale(1.15);margin-bottom:60px}
-    }
-    @media(min-width:700px){
-      body{padding-bottom:320px}
-      .page{transform:scale(1.45)}
-    }
-    @media(min-width:900px){
-      body{padding-bottom:500px}
-      .page{transform:scale(1.7)}
-    }
-    @media(min-width:1100px){
-      body{padding-bottom:700px}
-      .page{transform:scale(1.95)}
-    }
-    @media(min-width:1300px){
-      body{padding-bottom:840px}
-      .page{transform:scale(2.1)}
-    }
-    @media(min-width:1500px){
-      body{padding-bottom:1000px}
-      .page{transform:scale(2.3)}
+    .page{
+      position:relative;
+      max-width:430px;
+      margin:0 auto;
+      padding:0 0 40px;
+      min-height:100vh;
+      overflow-x:hidden;
     }
 
     /* ── LOGO ── */
@@ -133,13 +99,9 @@
     .btn-overlay:disabled{cursor:not-allowed;opacity:.3}
 
     /* ── RESULT ── */
-    #gl-result{
-      width:90%;
-      margin:10px auto 0;
-    }
+    #gl-result{width:90%;margin:10px auto 0}
     .result-wrap{animation:fadeUp .3s ease forwards}
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
     .r-success{background:rgba(255,255,255,.85);border:2px solid #4ade80;border-radius:16px;padding:13px}
     .r-error  {background:rgba(255,255,255,.85);border:2px solid #e91e8c;border-radius:16px;padding:13px}
     .status-row{display:flex;align-items:center;gap:7px;font-weight:700;margin-bottom:8px;font-size:.8rem;font-family:'Baloo 2',sans-serif}
@@ -156,112 +118,46 @@
     .open-link:hover{background:rgba(187,247,208,.95);transform:translateY(-1px)}
 
     /* ── BOTTOM ROW: info + hamster cùng 1 hàng ── */
-    .bottom-row{
-      display:flex;
-      align-items:flex-end;
-      width:96%;
-      margin:16px auto 0;
-      gap:0;
-    }
-    .info-wrap{
-      flex:0 0 44%;
-      max-width:44%;
-    }
-    .info-wrap img{
-      width:100%;
-      max-width:180px;
-      height:auto;
-      display:block;
-      mix-blend-mode:multiply;
-    }
-    .hamster-wrap{
-      flex:0 0 56%;
-      max-width:56%;
-      animation:hamFloat 2.5s ease-in-out infinite alternate;
-    }
-    .hamster-wrap canvas{
-      width:100%;
-      height:auto;
-      display:block;
-    }
+    .bottom-row{display:flex;align-items:flex-end;width:96%;margin:16px auto 0;gap:0}
+    .info-wrap{flex:0 0 44%;max-width:44%}
+    .info-wrap img{width:100%;max-width:180px;height:auto;display:block;mix-blend-mode:multiply}
+    .hamster-wrap{flex:0 0 56%;max-width:56%;animation:hamFloat 2.5s ease-in-out infinite alternate}
+    .hamster-wrap canvas{width:100%;height:auto;display:block}
     @keyframes hamFloat{from{transform:translateY(0)}to{transform:translateY(-7px)}}
 
-    /* ── FOOTER BANNER ── */
+    /* ── FOOTER ── */
     .footer-banner{
-      width:92%;
-      margin:14px auto 0;
+      width:92%;margin:14px auto 0;
       background:rgba(255,255,255,.65);
-      border:2.5px solid #e91e8c;
-      border-radius:50px;
-      padding:13px 20px;
-      text-align:center;
+      border:2.5px solid #e91e8c;border-radius:50px;
+      padding:13px 20px;text-align:center;
       font-family:'Baloo 2','Arial Black',sans-serif;
-      font-size:clamp(.7rem,3vw,.84rem);
-      font-weight:800;
-      color:#1a1a1a;
-      text-transform:uppercase;
-      letter-spacing:.05em;
+      font-size:clamp(.7rem,3vw,.84rem);font-weight:800;
+      color:#1a1a1a;text-transform:uppercase;letter-spacing:.05em;
     }
 
     .spinner{width:14px;height:14px;border:2.5px solid rgba(0,0,0,.15);border-top-color:#1a1a1a;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    @media(min-width:431px){
-      body{background-color:#e8d0d5}
-    }
-
     /* ── LOADING OVERLAY ── */
     .loading-overlay{
-      display:none;
-      position:fixed;inset:0;z-index:999;
-      background:rgba(252,232,237,.75);
-      backdrop-filter:blur(3px);
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:18px;
+      display:none;position:fixed;inset:0;z-index:999;
+      background:rgba(252,232,237,.75);backdrop-filter:blur(3px);
+      flex-direction:column;align-items:center;justify-content:center;gap:18px;
     }
     .loading-overlay.show{display:flex}
-
     .loading-box{
-      background:rgba(255,255,255,.92);
-      border:2.5px solid #e91e8c;
-      border-radius:24px;
-      padding:28px 36px;
-      text-align:center;
-      box-shadow:0 8px 32px rgba(233,30,140,.18);
+      background:rgba(255,255,255,.92);border:2.5px solid #e91e8c;border-radius:24px;
+      padding:28px 36px;text-align:center;box-shadow:0 8px 32px rgba(233,30,140,.18);
       animation:popIn .3s cubic-bezier(.34,1.56,.64,1) forwards;
     }
     @keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
-
     .loading-hearts{font-size:2rem;letter-spacing:4px;animation:heartBeat 1s ease-in-out infinite}
     @keyframes heartBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-
-    .loading-bar-wrap{
-      width:180px;height:8px;
-      background:#fce8ed;
-      border-radius:99px;
-      overflow:hidden;
-      margin:14px auto 0;
-      border:1.5px solid #f5b4be;
-    }
-    .loading-bar{
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg,#ff80bc,#e91e8c);
-      border-radius:99px;
-      animation:loadBar 2s ease-in-out infinite;
-    }
+    .loading-bar-wrap{width:180px;height:8px;background:#fce8ed;border-radius:99px;overflow:hidden;margin:14px auto 0;border:1.5px solid #f5b4be}
+    .loading-bar{height:100%;width:0%;background:linear-gradient(90deg,#ff80bc,#e91e8c);border-radius:99px;animation:loadBar 2s ease-in-out infinite}
     @keyframes loadBar{0%{width:0%;margin-left:0}60%{width:80%;margin-left:0}100%{width:0%;margin-left:100%}}
-
-    .loading-text{
-      font-family:'Baloo 2',sans-serif;
-      font-size:.88rem;
-      font-weight:700;
-      color:#e91e8c;
-      margin-top:10px;
-      animation:textFade 1.4s ease-in-out infinite alternate;
-    }
+    .loading-text{font-family:'Baloo 2',sans-serif;font-size:.88rem;font-weight:700;color:#e91e8c;margin-top:10px;animation:textFade 1.4s ease-in-out infinite alternate}
     @keyframes textFade{from{opacity:.5}to{opacity:1}}
   </style>
 </head>
@@ -333,31 +229,19 @@ async function callApi(payload) {
 }
 
 async function getLink() {
-  const cookie = document.getElementById('gl-cookie').value.trim();
-  const btn    = document.getElementById('gl-btn');
-  const resEl  = document.getElementById('gl-result');
+  const cookie  = document.getElementById('gl-cookie').value.trim();
+  const btn     = document.getElementById('gl-btn');
+  const resEl   = document.getElementById('gl-result');
   const overlay = document.getElementById('loading-overlay');
   const loadTxt = document.getElementById('loading-text');
-
   if (!cookie) { showError(resEl, 'Vui lòng nhập cookie trước!'); return; }
-
   btn.disabled = true;
   resEl.innerHTML = '';
   overlay.classList.add('show');
-
-  const msgs = [
-    'Đang kết nối Netflix... 🎬',
-    'Đang kiểm tra cookie... 🍿',
-    'Sắp xong rồi, chờ Hương xíu... 💕',
-    'Đang lấy link đăng nhập... ✨',
-  ];
+  const msgs = ['Đang kết nối Netflix... 🎬','Đang kiểm tra cookie... 🍿','Sắp xong rồi, chờ Hương xíu... 💕','Đang lấy link đăng nhập... ✨'];
   let mi = 0;
   loadTxt.textContent = msgs[0];
-  const msgTimer = setInterval(() => {
-    mi = (mi + 1) % msgs.length;
-    loadTxt.textContent = msgs[mi];
-  }, 1200);
-
+  const msgTimer = setInterval(() => { mi = (mi+1)%msgs.length; loadTxt.textContent = msgs[mi]; }, 1200);
   try {
     const data = await callApi({ cookie });
     if (data && (data.status === 'SUCCESS' || data.status === 'success')) {
