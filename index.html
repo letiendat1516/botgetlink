@@ -25,6 +25,9 @@
       overflow-x:hidden;
     }
 
+    /* ── ABOVE FOLD ── */
+    .above-fold{min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding-bottom:16px}
+
     /* ── LOGO ── */
     .logo-wrap{
       width:86%;
@@ -139,6 +142,29 @@
     .spinner{width:14px;height:14px;border:2.5px solid rgba(0,0,0,.15);border-top-color:#1a1a1a;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle}
     @keyframes spin{to{transform:rotate(360deg)}}
 
+    /* ── GUIDE SECTION ── */
+    .guide-section{width:92%;margin:18px auto 0}
+    .guide-title{font-family:'Baloo 2','Arial Black',sans-serif;font-size:.82rem;font-weight:800;color:#e91e8c;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;text-align:center}
+    .slider-wrapper{width:100%;overflow:hidden;border-radius:16px;border:2px solid #f5b4be;background:rgba(255,255,255,.6)}
+    .slider-track{display:flex;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+    .slide-item{min-width:100%;box-sizing:border-box}
+    .slide-img{width:100%;height:auto;display:block;cursor:zoom-in;border-radius:14px;transition:transform .2s}
+    .slide-img:hover{transform:scale(1.01)}
+    .slider-dots{display:flex;justify-content:center;gap:7px;margin-top:9px}
+    .dot-nav{width:8px;height:8px;border-radius:50%;background:#f5b4be;cursor:pointer;transition:background .2s,transform .2s}
+    .dot-nav.active{background:#e91e8c;transform:scale(1.3)}
+    .slider-arrows{display:flex;justify-content:center;gap:14px;margin-top:8px}
+    .arrow-btn{background:rgba(255,255,255,.85);border:2px solid #e91e8c;color:#e91e8c;border-radius:50%;width:34px;height:34px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-weight:700}
+    .arrow-btn:hover{background:#e91e8c;color:#fff}
+
+    /* ── ZOOM MODAL ── */
+    .zoom-modal{display:none;position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.82);backdrop-filter:blur(4px);align-items:center;justify-content:center}
+    .zoom-modal.show{display:flex}
+    .zoom-img{max-width:94vw;max-height:90vh;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.5);animation:zoomIn .25s ease}
+    @keyframes zoomIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+    .zoom-close{position:absolute;top:18px;right:20px;width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;cursor:pointer;font-weight:700;transition:background .2s}
+    .zoom-close:hover{background:rgba(255,255,255,.3)}
+
     /* ── LOADING OVERLAY ── */
     .loading-overlay{
       display:none;position:fixed;inset:0;z-index:999;
@@ -164,46 +190,67 @@
 <body>
 <div class="page">
 
-  <!-- LOGO -->
-  <div class="logo-wrap">
-    <img src="assets/logo.png" alt="Netflix – Hương thích xem phim"/>
+  <!-- ABOVE FOLD -->
+  <div class="above-fold">
+
+    <!-- LOGO -->
+    <div class="logo-wrap">
+      <img src="assets/logo.png" alt="Netflix – Hương thích xem phim"/>
+    </div>
+
+    <!-- INPUT BOX -->
+    <div class="inputbox-wrap">
+      <img class="inputbox-asset" src="assets/input-box.png" alt=""/>
+      <div class="textarea-wrap">
+        <textarea class="cookie-area" id="gl-cookie" placeholder="NHẬP LINK COOKIE....."></textarea>
+      </div>
+      <button class="btn-overlay" id="gl-btn" onclick="getLink()" aria-label="Lấy link đăng nhập"></button>
+    </div>
+
+    <!-- RESULT -->
+    <div id="gl-result"></div>
+
+    <!-- BOTTOM ROW -->
+    <div class="bottom-row">
+      <div class="info-wrap">
+        <img src="assets/info.png" alt="24/7 uy tín chất lượng an toàn"/>
+      </div>
+      <div class="hamster-wrap">
+        <canvas id="hamster-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer-banner">SHOP THÂN THIỆN VÀ IU THIÊN NHIÊN</div>
+
+  </div><!-- /.above-fold -->
+
+  <!-- HƯỚNG DẪN (scroll xuống mới thấy) -->
+  <div class="guide-section">
+    <div class="guide-title">📖 HƯỚNG DẪN SỬ DỤNG</div>
+    <div class="slider-wrapper">
+      <div class="slider-track" id="sliderTrack">
+        <div class="slide-item"><img src="assets/2.png" alt="Hướng dẫn 1" class="slide-img" onclick="openZoom(this.src)"/></div>
+        <div class="slide-item"><img src="assets/3.png" alt="Hướng dẫn 2" class="slide-img" onclick="openZoom(this.src)"/></div>
+        <div class="slide-item"><img src="assets/4.png" alt="Hướng dẫn 3" class="slide-img" onclick="openZoom(this.src)"/></div>
+      </div>
+    </div>
+    <div class="slider-dots">
+      <span class="dot-nav active" onclick="goSlide(0)"></span>
+      <span class="dot-nav" onclick="goSlide(1)"></span>
+      <span class="dot-nav" onclick="goSlide(2)"></span>
+    </div>
+    <div class="slider-arrows">
+      <button class="arrow-btn" onclick="prevSlide()">&#8592;</button>
+      <button class="arrow-btn" onclick="nextSlide()">&#8594;</button>
+    </div>
   </div>
 
-  <!-- INPUT BOX: asset PNG + overlay textarea + invisible clickable button -->
-  <div class="inputbox-wrap">
-    <img class="inputbox-asset" src="assets/input-box.png" alt=""/>
-    <div class="textarea-wrap">
-      <textarea
-        class="cookie-area"
-        id="gl-cookie"
-        placeholder="NHẬP LINK COOKIE....."
-      ></textarea>
-    </div>
-    <button
-      class="btn-overlay"
-      id="gl-btn"
-      onclick="getLink()"
-      aria-label="Lấy link đăng nhập"
-    ></button>
+  <!-- ZOOM MODAL -->
+  <div class="zoom-modal" id="zoomModal" onclick="closeZoom()">
+    <div class="zoom-close" onclick="closeZoom()">✕</div>
+    <img src="" id="zoomImg" class="zoom-img" onclick="event.stopPropagation()"/>
   </div>
-
-  <!-- RESULT -->
-  <div id="gl-result"></div>
-
-  <!-- BOTTOM: info trái + hamster phải, cùng hàng -->
-  <div class="bottom-row">
-    <div class="info-wrap">
-      <img src="assets/info.png" alt="24/7 uy tín chất lượng an toàn"/>
-    </div>
-    <div class="hamster-wrap">
-      <canvas id="hamster-canvas"></canvas>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <div class="footer-banner">SHOP THÂN THIỆN VÀ IU THIÊN NHIÊN</div>
-
-</div>
 
 <!-- LOADING OVERLAY -->
 <div class="loading-overlay" id="loading-overlay">
@@ -304,7 +351,44 @@ async function doCopy(text, id) {
 
 document.addEventListener('keydown', e => {
   if (e.ctrlKey && e.key === 'Enter') getLink();
+  if (e.key === 'Escape') closeZoom();
+  if (e.key === 'ArrowLeft') prevSlide();
+  if (e.key === 'ArrowRight') nextSlide();
 });
+
+// ── SLIDER ──
+let currentSlide = 0;
+const totalSlides = 3;
+function goSlide(idx) {
+  currentSlide = idx;
+  document.getElementById('sliderTrack').style.transform = `translateX(-${idx * 100}%)`;
+  document.querySelectorAll('.dot-nav').forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+function nextSlide() { goSlide((currentSlide + 1) % totalSlides); }
+function prevSlide() { goSlide((currentSlide - 1 + totalSlides) % totalSlides); }
+
+// swipe support
+(function() {
+  let startX = 0;
+  const wrapper = document.querySelector('.slider-wrapper');
+  if (!wrapper) return;
+  wrapper.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+  wrapper.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) dx < 0 ? nextSlide() : prevSlide();
+  }, {passive:true});
+})();
+
+// ── ZOOM ──
+function openZoom(src) {
+  document.getElementById('zoomImg').src = src;
+  document.getElementById('zoomModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeZoom() {
+  document.getElementById('zoomModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
 
 // ── Remove white background from hamster.png via Canvas ──
 (function removeHamsterBg() {
@@ -338,5 +422,6 @@ document.addEventListener('keydown', e => {
   };
 })();
 </script>
+</div><!-- /.page -->
 </body>
 </html>
