@@ -261,13 +261,12 @@
   </div>
 </div>
 <script>
-const API_URL = 'https://nftoken.site/v1/api.php';
-const API_KEY = 'NFK_51d19f9116b5b7b08b17d5dd';
+const API_URL = 'https://netflix-nftoken-generator.tiendat1516.workers.dev/api/get-token';
 
 async function callApi(payload) {
   const r = await fetch(API_URL, {
     method: 'POST',
-    headers: {'Content-Type': 'application/json', 'X-API-Key': API_KEY},
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(payload),
   });
   const text = await r.text();
@@ -291,10 +290,11 @@ async function getLink() {
   const msgTimer = setInterval(() => { mi = (mi+1)%msgs.length; loadTxt.textContent = msgs[mi]; }, 1200);
   try {
     const data = await callApi({ cookie });
-    if (data && (data.status === 'SUCCESS' || data.status === 'success')) {
-      renderSuccess(resEl, findNftokenLink(data), data);
+    if (data && data.success === true) {
+      const link = data.login_url || (data.token ? `https://netflix.com/?nftoken=${data.token}` : null);
+      renderSuccess(resEl, link, data);
     } else {
-      showError(resEl, data.message || 'Cookie DIE / không hợp lệ');
+      showError(resEl, data.message || data.error || 'Cookie DIE / không hợp lệ');
     }
   } catch (e) {
     showError(resEl, e.message);
@@ -305,17 +305,6 @@ async function getLink() {
   }
 }
 
-function findNftokenLink(data) {
-  if (data.nftoken) return `https://netflix.com/?nftoken=${data.nftoken}`;
-  if (data.token)   return `https://netflix.com/?nftoken=${data.token}`;
-  for (const v of Object.values(data)) {
-    if (typeof v === 'string') {
-      const m = v.match(/https?:\/\/netflix\.com\/\?nftoken=[^\s"]+/);
-      if (m) return m[0];
-    }
-  }
-  return null;
-}
 
 function renderSuccess(el, link, data) {
   const meta = [data.email||data.mail, data.plan, data.country].filter(Boolean).join(' · ');
